@@ -1,9 +1,7 @@
 package com.cleancode.shopping.controller;
 
 import com.cleancode.shopping.entity.CartDetails;
-import com.cleancode.shopping.entity.User;
 import com.cleancode.shopping.service.CartService;
-import com.cleancode.shopping.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
