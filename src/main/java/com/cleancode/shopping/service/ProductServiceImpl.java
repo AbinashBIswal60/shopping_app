@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
         Product product
                 = productRepository.findById(productId)
                 .orElseThrow(
-                        () -> new ProductServiceCustomException("Product with given Id not found"));
+                        () -> new ProductServiceCustomException("Product with given Id not found","PRODUCT_NOT_FOUND"));
 
         ProductResponse productResponse
                 = new ProductResponse();
@@ -65,12 +65,12 @@ public class ProductServiceImpl implements ProductService {
         Product product
                 = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductServiceCustomException(
-                        "Product with given Id not found"
+                        "Product with given Id not found","PRODUCT_NOT_FOUND"
                 ));
 
         if(product.getQuantity() < quantity) {
             throw new ProductServiceCustomException(
-                    "Product does not have sufficient Quantity"
+                    "Product does not have sufficient Quantity","INSUFFICIENT_QUANTITY"
             );
         }
 
@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
 
         if (!productRepository.existsById(productId)) {
             throw new ProductServiceCustomException(
-                    "Product with given with Id: " + productId + " not found:");
+                    "Product with given with Id: " + productId + " not found:", "PRODUCT_NOT_FOUND");
         }
         log.info("Deleting Product with id: "+ productId);
         productRepository.deleteById(productId);

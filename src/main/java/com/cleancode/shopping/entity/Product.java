@@ -17,6 +17,7 @@ import java.sql.Blob;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "PRODUCT_ID")
     private long productId;
 
     @Column(name = "PRODUCT_NAME")
