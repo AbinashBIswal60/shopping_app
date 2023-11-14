@@ -36,4 +36,20 @@ public class CartController {
         return new ResponseEntity<>(cartService.viewCart(userid), HttpStatus.OK);
     }
 
+    @PutMapping("/reduceQuantity/{productId}")
+    public ResponseEntity<Void> reduceQuantity(
+            @PathVariable("productId") long productId,
+            @RequestParam long userId
+    ) {
+
+        log.info("CartController | reduceQuantity is called");
+
+        log.info("CartController | reduceQuantity | userId : " + userId);
+        log.info("CartController | reduceQuantity | productId : " + productId);
+
+        cartService.reduceQuantityOfAProduct(userId,productId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

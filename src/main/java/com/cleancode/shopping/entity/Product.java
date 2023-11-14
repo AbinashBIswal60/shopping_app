@@ -2,10 +2,7 @@ package com.cleancode.shopping.entity;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Blob;
 
@@ -14,14 +11,16 @@ import java.sql.Blob;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "productName",columnNames = "PRODUCT_NAME")
+})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PRODUCT_ID")
     private long productId;
 
-    @Nonnull
-    @Column(name = "PRODUCT_NAME")
+    @Column(name = "PRODUCT_NAME",nullable = false)
     private String productName;
 
     @Nonnull

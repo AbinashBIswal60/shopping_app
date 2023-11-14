@@ -1,5 +1,6 @@
 package com.cleancode.shopping.exception;
 
+import com.cleancode.shopping.payload.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,12 +11,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ProductServiceCustomException.class)
-    public ResponseEntity<String> handleProductServiceException(ProductServiceCustomException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponse> handleProductServiceException(ProductServiceCustomException exception) {
+        return new ResponseEntity<>(new ErrorResponse().builder()
+                .errorMessage(exception.getMessage())
+                .errorCode(exception.getErrorCode())
+                .build(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserServiceCustomException.class)
-    public ResponseEntity<String> handleUserServiceException(UserServiceCustomException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponse> handleUserServiceException(UserServiceCustomException exception) {
+        return new ResponseEntity<>(new ErrorResponse().builder()
+                .errorMessage(exception.getMessage())
+                .errorCode(exception.getErrorCode())
+                .build(), HttpStatus.NOT_FOUND);
     }
 }

@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@RequestParam long id) {
+    public ResponseEntity<User> getUserById(@PathVariable long id) {
 
         log.info("UserController | getUserById is called");
 

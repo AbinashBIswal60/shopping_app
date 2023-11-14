@@ -51,21 +51,6 @@ public class ProductController {
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/reduceQuantity/{id}")
-    public ResponseEntity<Void> reduceQuantity(
-            @PathVariable("id") long productId,
-            @RequestParam long quantity
-    ) {
-
-        log.info("ProductController | reduceQuantity is called");
-
-        log.info("ProductController | reduceQuantity | productId : " + productId);
-        log.info("ProductController | reduceQuantity | quantity : " + quantity);
-
-        productService.reduceQuantity(productId,quantity);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable("id") long productId) {
         productService.deleteProductById(productId);

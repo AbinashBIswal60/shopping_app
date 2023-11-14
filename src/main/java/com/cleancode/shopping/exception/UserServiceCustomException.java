@@ -5,8 +5,10 @@ import lombok.Data;
 
 @Data
 public class UserServiceCustomException extends RuntimeException{
-    public UserServiceCustomException(String message) {
+
+    private String errorCode;
+    public UserServiceCustomException(String message, String errorCode) {
         super(message);
-        //this.errorCode = errorCode;
+        this.errorCode = errorCode;
     }
 }

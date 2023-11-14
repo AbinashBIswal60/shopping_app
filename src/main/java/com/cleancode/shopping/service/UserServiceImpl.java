@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService{
 
         if (!userRepostory.existsById(userId)) {
             throw new ProductServiceCustomException(
-                    "User with given with Id: " + userId + " not found:");
+                    "User with given with Id: " + userId + " not found:","USER_NOT_FOUND");
         }
         log.info("Deleting User with id: "+ userId);
         userRepostory.deleteById(userId);
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
         User user
                 = userRepostory.findById(userId)
                 .orElseThrow(
-                        () -> new ProductServiceCustomException("User with given Id not found"));
+                        () -> new ProductServiceCustomException("User with given Id not found","USER_NOT_FOUND"));
         
         log.info("UserServiceImpl | getProductById | User :" + user.toString());
 

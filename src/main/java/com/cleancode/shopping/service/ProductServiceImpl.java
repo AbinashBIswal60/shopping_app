@@ -9,10 +9,14 @@ import com.cleancode.shopping.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -28,15 +32,33 @@ public class ProductServiceImpl implements ProductService {
 
         Product product
                 = Product.builder()
-                .productName(productRequest.getName())
+                .productName(productRequest.getProductName())
                 .quantity(productRequest.getQuantity())
                 .price(productRequest.getPrice())
                 .build();
 
-        product = productRepository.save(product);
+        try{
+            product = productRepository.save(product);
 
-        log.info("ProductServiceImpl | addProduct | Product Id : " + product.getProductId());
-        return "Product has been added with Product Id : " + product.getProductId();
+            log.info("ProductServiceImpl | addProduct | Product Id : " + product.getProductId());
+            return "Product has been added with Product Id : " + product.getProductId();
+        }catch (DataIntegrityViolationException de){
+            String errorMsg = de.getMessage().toLowerCase();
+
+            String value = "";
+            String regex = "duplicate entry .{10,30}product\\.([^']+)\\'";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher;
+            if((matcher = pattern.matcher(errorMsg))!=null && matcher.find()){
+                value = matcher.group(1);
+                throw new ProductServiceCustomException("Product already exist with same: "+value,"DUPLICATE_ENTRY");
+            }
+
+            log.info("Exception occured." + Arrays.toString(de.getStackTrace()));
+            throw new ProductServiceCustomException(errorMsg,"INVALID_ENTRY");
+        }
+
+
     }
 
     @Override
@@ -48,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         Product product
                 = productRepository.findById(productId)
                 .orElseThrow(
-                        () -> new ProductServiceCustomException("Product with given Id not found"));
+                        () -> new ProductServiceCustomException("Product with given Id not found","PRODUCT_NOT_FOUND"));
 
         ProductResponse productResponse
                 = new ProductResponse();
@@ -67,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productRepository.findAll();
 
         if(products == null || products.size() == 0){
-            throw new ProductServiceCustomException("No products found.");
+            throw new ProductServiceCustomException("No products found in our Inventory.","PRODUCT_NOT_FOUND");
         }else {
             List<ProductResponse> productList = new ArrayList<>();
             for (Product product : products) {
@@ -109,13 +131,11 @@ public class ProductServiceImpl implements ProductService {
         Product product
                 = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductServiceCustomException(
-                        "Product with given Id not found"
-                ));
+                        "Product with given Id not found","PRODUCT_NOT_FOUND"));
 
         if(product.getQuantity() < quantity) {
             throw new ProductServiceCustomException(
-                    "Product does not have sufficient Quantity"
-            );
+                    "Product does not have sufficient Quantity","INSUFFICIENT_QUANTITY");
         }
 
         product.setQuantity(product.getQuantity() - quantity);
@@ -129,7 +149,7 @@ public class ProductServiceImpl implements ProductService {
 
         if (!productRepository.existsById(productId)) {
             throw new ProductServiceCustomException(
-                    "Product with given with Id: " + productId + " not found:");
+                    "Product with given with Id: " + productId + " not found:","PRODUCT_NOT_FOUND");
         }
         log.info("Deleting Product with id: "+ productId);
         productRepository.deleteById(productId);

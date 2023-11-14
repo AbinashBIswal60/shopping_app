@@ -33,7 +33,7 @@ public class CartServiceImpl implements CartService{
         List<CartDetails> cartDetailsList = cartRepository.findByUserId(userId);
 
         if(cartDetailsList == null){
-            throw new UserServiceCustomException("User with given Id not found");
+            throw new UserServiceCustomException("User with given Id not found","USER_NOT_FOUND");
         }else{
             final Double[] totalAmount = {0.0};
             HashMap<ProductResponse, Long> products = new HashMap<>();
