@@ -1,16 +1,12 @@
 package com.cleancode.shopping.service;
 
-import com.cleancode.shopping.entity.Product;
 import com.cleancode.shopping.entity.User;
 import com.cleancode.shopping.exception.ProductServiceCustomException;
-import com.cleancode.shopping.payload.ProductResponse;
 import com.cleancode.shopping.repository.UserRepostory;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +36,7 @@ public class UserServiceImpl implements UserService{
 
         if (!userRepostory.existsById(userId)) {
             throw new ProductServiceCustomException(
-                    "User with given with Id: " + userId + " not found:", "USER_NOT_FOUND");
+                    "User with given with Id: " + userId + " not found:");
         }
         log.info("Deleting User with id: "+ userId);
         userRepostory.deleteById(userId);
@@ -56,7 +52,7 @@ public class UserServiceImpl implements UserService{
         User user
                 = userRepostory.findById(userId)
                 .orElseThrow(
-                        () -> new ProductServiceCustomException("User with given Id not found", "USER_NOT_FOUND"));
+                        () -> new ProductServiceCustomException("User with given Id not found"));
         
         log.info("UserServiceImpl | getProductById | User :" + user.toString());
 

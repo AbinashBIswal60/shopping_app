@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/product")
 @RequiredArgsConstructor
@@ -18,14 +20,23 @@ public class ProductController {
     private final Logger log = LoggerFactory.getLogger("general");
 
     @PostMapping
-    public ResponseEntity<Long> addProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<String> addProduct(@RequestBody ProductRequest productRequest) {
 
         log.info("ProductController | addProduct is called");
 
         log.info("ProductController | addProduct | productRequest : " + productRequest.toString());
 
-        long productId = productService.addProduct(productRequest);
-        return new ResponseEntity<>(productId, HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.addProduct(productRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
+
+        log.info("ProductController | getAllProducts is called");
+
+        List<ProductResponse> productResponseList
+                = productService.getAllProducts();
+        return new ResponseEntity<>(productResponseList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

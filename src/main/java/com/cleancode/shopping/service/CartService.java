@@ -2,11 +2,10 @@ package com.cleancode.shopping.service;
 
 import com.cleancode.shopping.entity.CartDetails;
 import com.cleancode.shopping.payload.CartDetailsResponse;
-import org.springframework.stereotype.Service;
 
 
 public interface CartService {
-    CartDetailsResponse viewCart(String userId);
+    CartDetailsResponse viewCart(long userId);
 
     String addToCart(CartDetails cartDetails);
 

@@ -20,11 +20,12 @@ public class Product {
     @Column(name = "PRODUCT_ID")
     private long productId;
 
+    @Nonnull
     @Column(name = "PRODUCT_NAME")
     private String productName;
 
     @Nonnull
-    private long price;
+    private Double price;
 
     @Nonnull
     private long quantity;

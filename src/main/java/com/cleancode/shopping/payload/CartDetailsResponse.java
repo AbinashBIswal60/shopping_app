@@ -1,6 +1,5 @@
 package com.cleancode.shopping.payload;
 
-import com.cleancode.shopping.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +10,10 @@ import java.util.HashMap;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CartDetailsResponse {
     private long userId;
-    private HashMap<Product, Integer> products;
-    private long totalAmount;
+    private HashMap<ProductResponse, Long> products;
+    private Double totalAmount;
+    private String message;
 }
