@@ -37,7 +37,7 @@ public class CartController {
     }
 
     @PutMapping("/reduceQuantity/{productId}")
-    public ResponseEntity<Void> reduceQuantity(
+    public ResponseEntity<String> reduceQuantity(
             @PathVariable("productId") long productId,
             @RequestParam long userId
     ) {
@@ -47,9 +47,36 @@ public class CartController {
         log.info("CartController | reduceQuantity | userId : " + userId);
         log.info("CartController | reduceQuantity | productId : " + productId);
 
-        cartService.reduceQuantityOfAProduct(userId,productId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(
+                cartService.reduceQuantityOfAProduct(userId,productId),HttpStatus.OK);
     }
 
+    @DeleteMapping("/removeProduct/{productId}")
+    public ResponseEntity<String> removeProduct(
+            @PathVariable("productId") long productId,
+            @RequestParam long userId
+    ){
+
+        log.info("CartController | removeProduct is called");
+
+        log.info("CartController | removeProduct | userId : " + userId);
+        log.info("CartController | removeProduct | productId : " + productId);
+
+        return new ResponseEntity<>(
+                cartService.removeAProduct(userId,productId),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/removeAllFromCart/{userId}")
+    public ResponseEntity<String> removeAllFromCart(
+            @PathVariable("userId") long userId
+    ){
+
+        log.info("CartController | removeAllFromCart is called");
+
+        log.info("CartController | removeAllFromCart | userId : " + userId);
+
+        return new ResponseEntity<>(
+                cartService.removeAllFromCart(userId),HttpStatus.OK);
+    }
 
 }

@@ -15,7 +15,5 @@ public interface ProductService {
 
     ProductResponse getProductByName(String productName);
 
-    void reduceQuantity(long productId, long quantity);
-
     public void deleteProductById(long productId);
 }

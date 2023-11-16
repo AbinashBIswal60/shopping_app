@@ -39,7 +39,7 @@ public class ProductController {
         return new ResponseEntity<>(productResponseList, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getWithId/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable("id") long productId) {
 
         log.info("ProductController | getProductById is called");
@@ -48,6 +48,18 @@ public class ProductController {
 
         ProductResponse productResponse
                 = productService.getProductById(productId);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/getWithName/{productName}")
+    public ResponseEntity<ProductResponse> getProductByName(@PathVariable("productName") String productName) {
+
+        log.info("ProductController | getProductByName is called");
+
+        log.info("ProductController | getProductByName | productName : " + productName);
+
+        ProductResponse productResponse
+                = productService.getProductByName(productName);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 

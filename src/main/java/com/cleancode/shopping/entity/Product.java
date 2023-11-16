@@ -27,7 +27,7 @@ public class Product {
     private Double price;
 
     @Nonnull
-    private long quantity;
+    private long quantity;          //Inventory quantity
 
     private Blob image;
 }

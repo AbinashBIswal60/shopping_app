@@ -18,8 +18,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .build(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(UserServiceCustomException.class)
-    public ResponseEntity<ErrorResponse> handleUserServiceException(UserServiceCustomException exception) {
+    @ExceptionHandler(ShoppingCustomException.class)
+    public ResponseEntity<ErrorResponse> handleUserServiceException(ShoppingCustomException exception) {
         return new ResponseEntity<>(new ErrorResponse().builder()
                 .errorMessage(exception.getMessage())
                 .errorCode(exception.getErrorCode())

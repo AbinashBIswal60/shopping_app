@@ -2,7 +2,6 @@ package com.cleancode.shopping.service;
 
 import com.cleancode.shopping.exception.ProductServiceCustomException;
 import com.cleancode.shopping.entity.Product;
-import com.cleancode.shopping.exception.UserServiceCustomException;
 import com.cleancode.shopping.payload.ProductRequest;
 import com.cleancode.shopping.payload.ProductResponse;
 import com.cleancode.shopping.repository.ProductRepository;
@@ -123,25 +122,6 @@ public class ProductServiceImpl implements ProductService {
         return productResponse;
     }
 
-    @Override
-    public void reduceQuantity(long productId, long quantity) {
-
-        log.info("Reduce Quantity " +quantity+" for Id: "+productId);
-
-        Product product
-                = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductServiceCustomException(
-                        "Product with given Id not found","PRODUCT_NOT_FOUND"));
-
-        if(product.getQuantity() < quantity) {
-            throw new ProductServiceCustomException(
-                    "Product does not have sufficient Quantity","INSUFFICIENT_QUANTITY");
-        }
-
-        product.setQuantity(product.getQuantity() - quantity);
-        productRepository.save(product);
-        log.info("Product Quantity updated Successfully");
-    }
 
     @Override
     public void deleteProductById(long productId) {
