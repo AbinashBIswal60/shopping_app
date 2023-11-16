@@ -13,7 +13,6 @@ import java.sql.Blob;
 @NoArgsConstructor
 public class ProductResponse {
     private String productName;
-    //private long productId;
     private long quantity;
     private Double price;
     private Blob image;
